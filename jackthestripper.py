@@ -1,7 +1,14 @@
 #!/usr/bin/python2.7
 # Script to perform MITM (Man In The Middle) attacks using ARP poisoning to intercept all messages going between two targets.
 # @depends iptables; ettercap; sslstrip.
-# @author Cascudo <lucas.redeaberta.com.br>; Elfotux <elfotux@gmail.com>
+#
+# @authors 
+# Cascudo <lucas.redeaberta.com.br>; 
+# Elfotux <elfotux@gmail.com>;
+# Neko <nekoone@riseup.net>;
+# UserX <user_x@riseup.net>;
+# Code <code@riseup.net>.
+#
 # @born 2014-10-19
 
 import sys, numpy, getopt, subprocess
