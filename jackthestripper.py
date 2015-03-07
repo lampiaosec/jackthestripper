@@ -31,7 +31,7 @@ print "        \/                |__|   |__|        \/          "
 def introduceYourself():
 	'Examples'
 	print 'Example 1: jackthestripper'
-	print 'Example 2: jackthestripper -i wlan0 --t1 10.0.0.1 --t2 10.0.0.3 --block-web-browsing --remote-browser --dns-spoof'
+	print 'Example 2: jackthestripper -i wlan0 --ap 10.0.0.1 --t 10.0.0.3 --block-web-browsing --remote-browser --dns-spoof'
 	sys.exit(0)
 
 def checkCompliance(requirements):
@@ -62,8 +62,8 @@ def setParams():
 		elif opt == '--remote-browser': useRemoteBrowser = 'Y'
 		elif opt == '--dns-spoof': useDnsSpoof = 'Y'
 		elif opt == '--block-web-browsing': blockWebBrowsing = 'Y'
-		elif opt == '--t1': target1 = arg
-		elif opt == '--t2': target2 = arg
+		elif opt == '--ap': target1 = arg
+		elif opt == '--t': target2 = arg
 	if networkInterface == '': networkInterface = raw_input('Choose a network interface: ')
 	if target1 == '': target1 = raw_input('Insert target 1: ')
 	if target2 == '': target2 = raw_input('Insert target 2: ')
