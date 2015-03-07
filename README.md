@@ -1,5 +1,7 @@
 JackTheStripper
 ---------------
+- Man in the middle automated attacks -
+This project aims to perform MITM attacks in automated way.
 
 JackTheStripper arises as a personal project from Lucas (also known as Cascudo). 
 The project was made just for fun and for learning reasons, however the #lampiaosec
