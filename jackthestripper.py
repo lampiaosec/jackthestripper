@@ -53,7 +53,7 @@ def setParams():
 	'Sets necessary parameters'
 	global networkInterface, target1, target2, useRemoteBrowser, useDnsSpoof, blockWebBrowsing
 	try:                                
-		opts, args = getopt.getopt(sys.argv[1:], "i:h", ["block-web-browsing", "dns-spoof", "help", "remote-browser", "t1=", "t2="])
+		opts, args = getopt.getopt(sys.argv[1:], "i:h", ["block-web-browsing", "dns-spoof", "help", "remote-browser", "ap=", "t="])
 	except getopt.GetoptError:
 		pass
 	for opt, arg in opts:
