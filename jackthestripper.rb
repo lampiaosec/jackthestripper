@@ -14,23 +14,23 @@
 require 'getoptlong'
 require 'rake'
 require 'open3'
-
+#require 'soap'
 
 #Splash
-print "     ____.              __     ___________.__            "
-print "    |    |____    ____ |  | __ \__    ___/|  |__   ____  "
-print "    |    \__  \ _/ ___\|  |/ /   |    |   |  |  \_/ __ \ "
-print '/\__|    |/ __ \\\\  \___|    <    |    |   |   Y  \  ___/ '
-print "\________(____  /\___  >__|_ \   |____|   |___|  /\___  >"
-print "              \/     \/     \/                 \/     \/ "
-print "  _________ __         .__                               "
-print " /   _____//  |________|__|_____ ______   ___________    "
-print " \_____  \\\\   __\_  __ \  \____ \\\\____ \_/ __ \_  __ \   "
-print " /        \|  |  |  | \/  |  |_> >  |_> >  ___/|  | \/   "
-print "/_______  /|__|  |__|  |__|   __/|   __/ \___  >__|      "
-print "        \/                |__|   |__|        \/          "
+print "     ____.              __     ___________.__            \n"
+print "   |    |____    ____ |  | __ \\__    ___/|  |__   ____  \n"
+print "   |    \\__  \\ _/ ___\\|  |/ /   |    |   |  |  \\_/  __ \\ \n"
+print "/\__|    |/ __ \\\\  \\___|    <    |    |   |   Y  \   ___ / \n"
+print "\________(____  /\\___  >__|_ \\   |____|   |___|  /\\___  >\n"
+print "             \\/     \\/     \\/                 \\/     \\/ \n"
+print "  _________ __         .__                               \n"
+print " /   _____//  |________|__|_____ ______   ___________    \n"
+print " \_____  \\\\   __\\_  __ \\  \\____ \\\\____ \\_/ __ \\_  __ \\   \n"
+print " /        \\|  |  |  | \\/  |  |_> >  |_> >  ___/|  |\\/   \n"
+print "/_______  /|__|  |__|  |__|   __/|   __/ \___  >__|      \n"
+print "       \\/                |__|   |__|        \\/          \n"
 #Splash
-	
+
 
 $storage = ARGV.clone
 
@@ -43,25 +43,25 @@ end
 
 def checkCompliance(requirements)
     #Looks for broken dependencies
-    isCompliant = true
-    userid = %x<echo $UID>
-    if userid != 0
+    isCompliant = true 
+    userid = ENV['USER']
+
+    #getting UserName
+    if userid != "root"
         isCompliant = false;
         print "Sorry, an error occured, are you sure that your are root? (UserID: #{userid})\n"
     end
+    # Testing system requirements.
     requirements.each do |required|
-    
-        #p = Open3.popen3 (required) do |stdin, stdout, stderr, wait_thr|
-        
-        print "#{required} is not installed, please install it before proceed [!!]\n"
-        
+        system(required)
+        if $?.success? != true
+            isCompliant = false
+            print "#{required} is not installed, please install it before proceed [!!]\n"
+        end
     end
-
-=begin
-    if isCompliant == false
+    if !isCompliant
         exit(2)
     end
-=end
 end
 
 def setParams()
@@ -139,6 +139,5 @@ def setParams()
     
 end
 
-requirements = ["ls", "ps", "ls"]
+requirements = ["ls", "asdad", "ls"]
 checkCompliance (requirements)
-
