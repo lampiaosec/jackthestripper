@@ -12,10 +12,11 @@
 # @born 2014-10-19
 
 require 'getoptlong'
+require 'rake'
+require 'open3'
 
 
-=begin
-Splash
+#Splash
 print "     ____.              __     ___________.__            "
 print "    |    |____    ____ |  | __ \__    ___/|  |__   ____  "
 print "    |    \__  \ _/ ___\|  |/ /   |    |   |  |  \_/ __ \ "
@@ -28,12 +29,40 @@ print " \_____  \\\\   __\_  __ \  \____ \\\\____ \_/ __ \_  __ \   "
 print " /        \|  |  |  | \/  |  |_> >  |_> >  ___/|  | \/   "
 print "/_______  /|__|  |__|  |__|   __/|   __/ \___  >__|      "
 print "        \/                |__|   |__|        \/          "
-Splash
-=end
+#Splash
 	
 
 $storage = ARGV.clone
 
+def introduceYourself()
+    #Examples
+    print "Example 1: jackthestripper"
+    print "Example 2: jackthestripper -i wlan0 --ap 10.0.0.1 --t 10.0.0.3 --http-dos --dns-spoof --remote-browser"
+    exit(0)
+end
+
+def checkCompliance(requirements)
+    #Looks for broken dependencies
+    isCompliant = true
+    userid = %x<echo $UID>
+    if userid != 0
+        isCompliant = false;
+        print "Sorry, an error occured, are you sure that your are root? (UserID: #{userid})\n"
+    end
+    requirements.each do |required|
+    
+        #p = Open3.popen3 (required) do |stdin, stdout, stderr, wait_thr|
+        
+        print "#{required} is not installed, please install it before proceed [!!]\n"
+        
+    end
+
+=begin
+    if isCompliant == false
+        exit(2)
+    end
+=end
+end
 
 def setParams()
     #Sets necessary parameters
@@ -47,7 +76,7 @@ def setParams()
     opts = GetoptLong.new(
         [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
         [ '--iface', '-i', GetoptLong::REQUIRED_ARGUMENT ],
-        [ '--HTTP-DOS', GetoptLong::NO_ARGUMENT ],
+        [ '--http-dos', GetoptLong::NO_ARGUMENT ],
         [ '--dns-spoof', GetoptLong::NO_ARGUMENT ],
         [ '--remote-browser', GetoptLong::NO_ARGUMENT ],
         [ '--ap', GetoptLong::REQUIRED_ARGUMENT ],
@@ -66,7 +95,7 @@ def setParams()
         elsif opt == "--dns-spoof"
             print "Network typed #{arg}\n"
             $useDnsSpoof = 'y'
-        elsif opt == "HTTP-DOS"
+        elsif opt == "http-dos"
             print "Network typed #{arg}\n"
             $HTTPDOS = 'y'
         elsif opt == "--ap"
@@ -109,4 +138,7 @@ def setParams()
     end
     
 end
-setParams()
+
+requirements = ["ls", "ps", "ls"]
+checkCompliance (requirements)
+
