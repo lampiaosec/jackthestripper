@@ -14,30 +14,31 @@
 require 'getoptlong'
 require 'rake'
 require 'open3'
-#require 'soap'
+require 'socket'
 
-#Splash
-print "     ____.              __     ___________.__            \n"
-print "   |    |____    ____ |  | __ \\__    ___/|  |__   ____  \n"
-print "   |    \\__  \\ _/ ___\\|  |/ /   |    |   |  |  \\_/  __ \\ \n"
-print "/\__|    |/ __ \\\\  \\___|    <    |    |   |   Y  \   ___ / \n"
-print "\________(____  /\\___  >__|_ \\   |____|   |___|  /\\___  >\n"
-print "             \\/     \\/     \\/                 \\/     \\/ \n"
-print "  _________ __         .__                               \n"
-print " /   _____//  |________|__|_____ ______   ___________    \n"
-print " \_____  \\\\   __\\_  __ \\  \\____ \\\\____ \\_/ __ \\_  __ \\   \n"
-print " /        \\|  |  |  | \\/  |  |_> >  |_> >  ___/|  |\\/   \n"
-print "/_______  /|__|  |__|  |__|   __/|   __/ \___  >__|      \n"
-print "       \\/                |__|   |__|        \\/          \n"
-#Splash
+
+def splash()
+    print "    ____.              __     ___________.__            \n"
+    print "   |    |____    ____ |  | __ \\__    ___/|  |__   ____  \n"
+    print "   |    \\__  \\ _/ ___\\|  |/ /   |    |   |  |  \\_/  __ \\ \n"
+    print "/\__|    |/ __ \\\\  \\___|    <    |    |   |   Y  \   ___ / \n"
+    print "\________(____  /\\___  >__|_ \\   |____|   |___|  /\\___  >\n"
+    print "             \\/     \\/     \\/                 \\/     \\/ \n"
+    print "  _________ __         .__                               \n"
+    print " /   _____//  |________|__|_____ ______   ___________    \n"
+    print " \_____  \\\\   __\\_  __ \\  \\____ \\\\____ \\_/ __ \\_  __ \\   \n"
+    print " /        \\|  |  |  | \\/  |  |_> >  |_> >  ___/|  |\\/   \n"
+    print "/_______  /|__|  |__|  |__|   __/|   __/ \___  >__|      \n"
+    print "       \\/                |__|   |__|        \\/          \n"
+end
 
 
 $storage = ARGV.clone
 
 def introduceYourself()
     #Examples
-    print "Example 1: jackthestripper"
-    print "Example 2: jackthestripper -i wlan0 --ap 10.0.0.1 --t 10.0.0.3 --http-dos --dns-spoof --remote-browser"
+    print "Example 1: jackthestripper\n"
+    print "Example 2: jackthestripper -i wlan0 --ap 10.0.0.1 --t 10.0.0.3 --http-dos --dns-spoof --remote-browser\n"
     exit(0)
 end
 
@@ -85,7 +86,7 @@ def setParams()
     
     opts.each do |opt, arg| 
         if opt == '-h' or opt == "--help" 
-            print "--help typed!\n"
+            introduceYourself()
         elsif opt == '-i' or opt == "--iface"
             print "Network typed #{arg}\n"
             $networkInterface = arg 
@@ -139,5 +140,13 @@ def setParams()
     
 end
 
-requirements = ["ls", "asdad", "ls"]
-checkCompliance (requirements)
+def getIpAddress()
+    Socket::getaddrinfo(Socket.gethostname,"echo",Socket::AF_INET)[0][3]
+
+end
+splash()
+#checkCompliance (requirements)
+#requirements = ["ls", "asdad", "ls"]
+#setParams()
+
+
