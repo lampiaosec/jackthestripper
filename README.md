@@ -9,3 +9,5 @@ decided to embrace the Jack as a first step of the group, that way, the project 
 to be part of lampiaosec's projects. 
 
 to contact us: #lampiaosec freenode.
+
+LampiaoSec is part of the #RaulHC (Raul Hacker Club). 
