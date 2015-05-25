@@ -7,8 +7,6 @@
 # Elfotux <elfotux@gmail.com>;
 # Neko <nekoone@riseup.net>;
 # UserX <user_x@riseup.net>;
-# Code <code@riseup.net>.
-# Music0 <musico@riseup.net>
 # @born 2014-10-19
 
 require 'getoptlong'
@@ -30,7 +28,7 @@ def splash()
     print "             \\/     \\/     \\/                 \\/     \\/ \n".green
     print "  _________ __         .__                               \n".green
     print " /   _____//  |________|__|_____ ______   ___________    \n".green
-    print " \_____  \\\\   __\\_  __ \\  \\____ \\\\____ \\_/ __ \\_  __ \\   \n".green
+    print ' \_____  \\\\   __\\_  __ \\  \\____ \\\\____ \\_/ __ \\_  __ \\   \n'.green
     print " /        \\|  |  |  | \\/  |  |_> >  |_> >  ___/|  |\\/   \n".green
     print "/_______  /|__|  |__|  |__|   __/|   __/ \___  >__|      \n".green
     print "       \\/                |__|   |__|        \\/          \n".green
@@ -72,7 +70,7 @@ end
 def setParams()
     #Sets necessary parameters
 
-    $inetworkInterface = ""
+    $networkInterface = ""
     $useRemoteBrowser = ''
     $useDnsSpoof = ''
     $HTTPDPS = ''
@@ -85,8 +83,7 @@ def setParams()
         [ '--dns-spoof', GetoptLong::NO_ARGUMENT ],
         [ '--remote-browser', GetoptLong::NO_ARGUMENT ],
         [ '--ap', GetoptLong::REQUIRED_ARGUMENT ],
-        [ '--t', GetoptLong::REQUIRED_ARGUMENT ]
-    )
+        [ '--t', GetoptLong::REQUIRED_ARGUMENT ])
     
     opts.each do |opt, arg| 
         if opt == '-h' or opt == "--help" 
@@ -148,6 +145,20 @@ def getIpAddress()
     Socket::getaddrinfo(Socket.gethostname,"echo",Socket::AF_INET)[0][3]
 
 end
+
+def block()
+    #Replaces all browsed pages with a pirate flag
+    $networkInterface
+    wwwroot = " "
+    if File.directory?("/var/www/html")
+	wwwroot = "/var/www/html"
+    elsif File.directory?("/var/www")
+	wwwroot = "/var/www"
+    else wwwroot == " "
+	print "Could not find a valid Apache path, please install apache2 or httpd before proceed"
+    end
+end
+
 splash()
 #checkCompliance (requirements)
 #requirements = ["ls", "asdad", "ls"]
