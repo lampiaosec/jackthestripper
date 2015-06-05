@@ -7,8 +7,6 @@
 # Elfotux <elfotux@gmail.com>;
 # Neko <nekoone@riseup.net>;
 # UserX <user_x@riseup.net>;
-# Code <code@riseup.net>.
-# Music0 <musico@riseup.net>
 # @born 2014-10-19
 
 import sys, numpy, getopt, subprocess
