@@ -96,7 +96,7 @@ class JackTheStripper():
 			if output == "":
 				subprocess.call(['iptables', '-t', 'nat', '-A', 'PREROUTING', '-i', self.networkInterface, '-p', 'tcp', '--dport', p[1], '-j', 'REDIRECT', '--to-port', '10000'])
 
-	def getIpAddress(ifname):
+	def getIpAddress(self, ifname):
 		import socket, struct, fcntl
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		return socket.inet_ntoa(fcntl.ioctl(
