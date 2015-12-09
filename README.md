@@ -18,7 +18,7 @@ You can know more in https://lampiaosec.github.io/jackthestripper.
 
 Send a e-mail to lampiaosec at riseup dot net.
 
-Or connect to us IRC channel: #lampiaosec at freenode.
+Or connect to us IRC channel: #lampiaosec at OFTC.
 
 Look https://lampiaosec.github.io/contact for all ways.
 
